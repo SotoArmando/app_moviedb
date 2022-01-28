@@ -10,7 +10,7 @@ class SlideRightRoute extends PageRouteBuilder {
             Animation<double> secondaryAnimation,
           ) =>
               page,
-          transitionDuration: Duration(milliseconds: 357),
+          transitionDuration: Duration(milliseconds: 100),
           transitionsBuilder: (
             BuildContext context,
             Animation<double> animation,
