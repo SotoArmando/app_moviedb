@@ -16,6 +16,7 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   late Future<List<Movie>> futureMoviedblist;
+  late Movie? focusedMovie;
   @override
   void initState() {
     // TODO: implement initState
@@ -46,7 +47,8 @@ class _HomepageState extends State<Homepage> {
                               ),
                               onPressed: () {
                                 Navigator.of(context).push(SlideRightRoute(
-                                    page: const Moviedetailspage()));
+                                    page: Moviedetailspage(
+                                        focusedMovie: _movie)));
                               },
                               child: Material(
                                 elevation: 4,
@@ -66,7 +68,21 @@ class _HomepageState extends State<Homepage> {
                                         height: 100,
                                         width: 100,
                                         decoration: BoxDecoration(
-                                            color: Colors.orange,
+                                            shape: BoxShape.circle,
+                                            gradient: LinearGradient(
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter,
+                                              colors: [
+                                                Colors.blue,
+                                                Colors.blue.shade600,
+                                              ],
+                                            )),
+                                        foregroundDecoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: NetworkImage(
+                                                    Movidedbdescendant.imageurl(
+                                                        _movie.poster_path))),
+                                            color: Colors.transparent,
                                             shape: BoxShape.circle),
                                       ),
                                       Expanded(
@@ -80,7 +96,7 @@ class _HomepageState extends State<Homepage> {
                                               textAlign: TextAlign.center,
                                             ),
                                             Text(
-                                              _movie.vote_average.toString(),
+                                              '${_movie.vote_average.toString()} / 10',
                                               textAlign: TextAlign.end,
                                             ),
                                           ],

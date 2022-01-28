@@ -14,12 +14,11 @@ const authenticationparameters = {
 };
 
 class Movidedbdescendant {
-  static const _toprated = '/3/movie/top_rated',
-      _imageurl = '/t/p/w500/',
-      _listrecipes = '/tastydescendant/listrecipes',
-      _listtags = '/tastydescendant/listtags',
-      _listfeeds = '/tastydescendant/listfeeds',
-      _listsimilarities = '/tastydescendant/listsimilarities';
+  static const _toprated = '/3/movie/top_rated', _imageurl = '/t/p/w500';
+
+  static String imageurl(String path) {
+    return 'https://${baseurl}${_imageurl}${path}';
+  }
 
   static Future<List<Movie>> toprated() async {
     print('uri');
