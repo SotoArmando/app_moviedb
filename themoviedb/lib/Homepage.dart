@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:themoviedb/Moviedbdescendant.dart';
 import 'package:themoviedb/Moviedetailspage.dart';
 import 'package:themoviedb/convenientTransition.dart';
+import 'package:themoviedb/descendants/Movie.dart';
 
 class Homepage extends StatefulWidget {
   Homepage({Key? key}) : super(key: key);
@@ -11,62 +15,92 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  late Future<List<Movie>> futureMoviedblist;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    futureMoviedblist = Movidedbdescendant.toprated();
+  }
+
   @override
   Widget build(BuildContext context) {
+    print('build');
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 12.5),
         child: Column(
           children: [
-            for (var i in [1, 2, 3])
-              Container(
-                  margin: EdgeInsets.only(bottom: 5),
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                      splashFactory: NoSplash.splashFactory,
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).push(
-                          SlideRightRoute(page: const Moviedetailspage()));
-                    },
-                    child: Material(
-                      elevation: 4,
-                      child: Container(
-                        alignment: Alignment.center,
-                        // decoration: BoxDecoration(
-                        //     border: Border.all(width: 1, color: Colors.black)),
-                        padding: EdgeInsets.only(
-                            top: 10, bottom: 2.5, left: 2.5, right: 12.5),
-                        height: 100,
-                        child: Row(
-                          children: [
-                            Container(
-                              height: 100,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                  color: Colors.orange, shape: BoxShape.circle),
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  Text(
-                                    'The matrix',
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  Text(
-                                    '8.1/10',
-                                    textAlign: TextAlign.end,
-                                  ),
-                                ],
+            FutureBuilder<List<Movie>>(
+              future: futureMoviedblist,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Column(
+                    children: [
+                      for (Movie _movie in snapshot.data!)
+                        Container(
+                            margin: EdgeInsets.only(bottom: 5),
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                splashFactory: NoSplash.splashFactory,
                               ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ))
+                              onPressed: () {
+                                Navigator.of(context).push(SlideRightRoute(
+                                    page: const Moviedetailspage()));
+                              },
+                              child: Material(
+                                elevation: 4,
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  // decoration: BoxDecoration(
+                                  //     border: Border.all(width: 1, color: Colors.black)),
+                                  padding: EdgeInsets.only(
+                                      top: 10,
+                                      bottom: 2.5,
+                                      left: 2.5,
+                                      right: 12.5),
+                                  height: 100,
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        height: 100,
+                                        width: 100,
+                                        decoration: BoxDecoration(
+                                            color: Colors.orange,
+                                            shape: BoxShape.circle),
+                                      ),
+                                      Expanded(
+                                        flex: 2,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: [
+                                            Text(
+                                              _movie.title,
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            Text(
+                                              _movie.vote_average.toString(),
+                                              textAlign: TextAlign.end,
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ))
+                    ],
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                }
+
+                // By default, show a loading spinner.
+                return const CircularProgressIndicator();
+              },
+            ),
           ],
         ),
       ),
