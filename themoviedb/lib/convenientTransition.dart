@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-Route _createRoute(Widget page) {
+Route createRoute(Widget page) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => page,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
