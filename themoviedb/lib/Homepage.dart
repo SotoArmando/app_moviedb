@@ -20,11 +20,14 @@ class _HomepageState extends State<Homepage> {
           children: [
             for (var i in [1, 2, 3])
               Container(
-                  margin: EdgeInsets.only(bottom: 12.5),
+                  margin: EdgeInsets.only(bottom: 5),
                   child: TextButton(
+                    style: TextButton.styleFrom(
+                      splashFactory: NoSplash.splashFactory,
+                    ),
                     onPressed: () {
-                      Navigator.of(context)
-                          .push(createRoute(const Moviedetailspage()));
+                      Navigator.of(context).push(
+                          SlideRightRoute(page: const Moviedetailspage()));
                     },
                     child: Material(
                       elevation: 4,

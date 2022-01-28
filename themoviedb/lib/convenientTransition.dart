@@ -1,18 +1,28 @@
 import 'package:flutter/widgets.dart';
 
-Route createRoute(Widget page) {
-  return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => page,
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(0.0, 1.0);
-      const end = Offset.zero;
-      final tween = Tween(begin: begin, end: end);
-      final offsetAnimation = animation.drive(tween);
-
-      return SlideTransition(
-        position: offsetAnimation,
-        child: child,
-      );
-    },
-  );
+class SlideRightRoute extends PageRouteBuilder {
+  final Widget page;
+  SlideRightRoute({required this.page})
+      : super(
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              page,
+          transitionDuration: Duration(milliseconds: 357),
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) =>
+              SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(-1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          ),
+        );
 }

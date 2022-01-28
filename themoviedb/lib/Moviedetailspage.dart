@@ -13,7 +13,7 @@ class _MoviedetailspageState extends State<Moviedetailspage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text("Jose 28/12022"),
       ),
       body: Column(
         children: [
